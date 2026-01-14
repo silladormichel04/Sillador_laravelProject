@@ -14,6 +14,11 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [MenuItemController::class, 'index'])->name('dashboard');
 
+    Route::get('menu-items/trash', [MenuItemController::class, 'trash'])->name('menu-items.trash');
+    Route::post('menu-items/{menuItem}/restore', [MenuItemController::class, 'restore'])->name('menu-items.restore');
+    Route::delete('menu-items/{menuItem}/force-delete', [MenuItemController::class, 'force-delete'])->name('menu-items.force-delete');
+    Route::get('menu-items/export/pdf', [MenuItemController::class, 'exportPdf'])->name('menu-items.export-pdf');
+
     Route::post('menu-items', [MenuItemController::class, 'store'])->name('menu-items.store');
     Route::put('menu-items/{menuItem}', [MenuItemController::class, 'update'])->name('menu-items.update');
     Route::delete('menu-items/{menuItem}', [MenuItemController::class, 'destroy'])->name('menu-items.destroy');

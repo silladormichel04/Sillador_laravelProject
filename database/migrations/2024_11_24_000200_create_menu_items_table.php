@@ -35,11 +35,13 @@ return new class extends Migration {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('photo')->nullable();
             $table->decimal('price', 10, 2);
             $table->string('status');
             $table->text('description')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
