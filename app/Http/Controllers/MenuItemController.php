@@ -17,10 +17,13 @@ class MenuItemController extends Controller
      */
     public function index(Request $request): View
     {
+        $search = $request->string('search')->toString();
+        $categoryId = $request->integer('category_id') ?: null;
+
         $query = MenuItem::with('category');
 
         // Search by name / description
-        if ($search = $request->string('search')->toString()) {
+        if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%'.$search.'%')
                     ->orWhere('description', 'like', '%'.$search.'%');
@@ -28,7 +31,7 @@ class MenuItemController extends Controller
         }
 
         // Filter by related category
-        if ($categoryId = $request->integer('category_id')) {
+        if ($categoryId) {
             $query->where('category_id', $categoryId);
         }
 
@@ -101,6 +104,10 @@ class MenuItemController extends Controller
      */
     public function destroy(MenuItem $menuItem): RedirectResponse
     {
+        if ($menuItem->photo) {
+            \Storage::disk('public')->delete($menuItem->photo);
+        }
+
         $menuItem->delete();
 
         return back()->with('status', __('Menu item deleted successfully.'));
@@ -111,16 +118,19 @@ class MenuItemController extends Controller
      */
     public function trash(Request $request): View
     {
+        $search = $request->string('search')->toString();
+        $categoryId = $request->integer('category_id') ?: null;
+
         $query = MenuItem::onlyTrashed()->with('category');
 
-        if ($search = $request->string('search')->toString()) {
+        if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%'.$search.'%')
                     ->orWhere('description', 'like', '%'.$search.'%');
             });
         }
 
-        if ($categoryId = $request->integer('category_id')) {
+        if ($categoryId) {
             $query->where('category_id', $categoryId);
         }
 

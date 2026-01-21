@@ -463,6 +463,10 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="mt-4">
+                    {{ $menuItems->links() }}
+                </div>
             </div>
         </div>
     </div>

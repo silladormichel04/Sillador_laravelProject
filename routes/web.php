@@ -16,7 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('menu-items/trash', [MenuItemController::class, 'trash'])->name('menu-items.trash');
     Route::post('menu-items/{menuItem}/restore', [MenuItemController::class, 'restore'])->name('menu-items.restore');
-    Route::delete('menu-items/{menuItem}/force-delete', [MenuItemController::class, 'force-delete'])->name('menu-items.force-delete');
+    Route::delete('menu-items/{menuItem}/force-delete', [MenuItemController::class, 'forceDelete'])->name('menu-items.force-delete');
     Route::get('menu-items/export/pdf', [MenuItemController::class, 'exportPdf'])->name('menu-items.export-pdf');
 
     Route::post('menu-items', [MenuItemController::class, 'store'])->name('menu-items.store');
